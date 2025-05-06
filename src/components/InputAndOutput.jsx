@@ -6,19 +6,15 @@ import { LuSendHorizontal } from "react-icons/lu";
 const InputAndOutput = () => {
 
     const [ans, setAns] = useState("");
-    const [pdfText, setPdfText] = useState("");
-
-    useEffect( () =>{
-        axios.get('/api/pdf')
-        .then(res =>{
-            console.log(res.data.text)
-        })
-    }, [])
 
     const handleSendMessage = (e) =>{
         e.preventDefault();
-        const search = e.target.search.value;
-        console.log(search);
+        const question = e.target.search.value;
+        axios.post('/api/ask', {question})
+        .then(res =>{
+            console.log(res.data);
+        })
+        // console.log(question);
         e.target.reset();
     }
     return (
