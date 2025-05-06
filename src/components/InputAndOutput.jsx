@@ -3,6 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { LuSendHorizontal } from "react-icons/lu";
+import { IoCopyOutline } from "react-icons/io5";
 
 const ai = new GoogleGenAI({apiKey: "AIzaSyAZL96CxSBUJaHjm-OufgMEL1KZHmd7Mxw"});
 
@@ -30,6 +31,10 @@ const InputAndOutput = () => {
         e.target.reset();
         setLoading(false);
     }
+    const handleCopy = () =>{
+        navigator.clipboard.writeText(ans);
+        toast.success("Text copied successfully!")
+    }
     return (
         <div className="">
             <h2 className='text-3xl font-bold text-slate-800 pt-5'>Job <span className='text-cyan-400'>Helper</span></h2>
@@ -49,7 +54,17 @@ const InputAndOutput = () => {
                         </button>
                     </div>
                 </form>
-                <p className="min-h-[200px] md:w-[50%] border border-slate-600 rounded-xl text-cyan-600 p-5">{ans}</p>
+                <div className="min-h-[200px] md:w-[50%] border border-slate-600 rounded-xl text-cyan-600 p-5">
+                    <div className="flex justify-between mb-2">
+                        <p className="text-lg font-medium text-slate-600">Your Ans:</p>
+                        <button onClick={handleCopy} className="cursor-pointer">
+                            <IoCopyOutline className="text-slate-700 text-xl"></IoCopyOutline>
+                        </button>
+                    </div>
+                    <p className="">
+                        {ans}
+                    </p>
+                </div>
             </div>
             <Toaster></Toaster>
         </div>
