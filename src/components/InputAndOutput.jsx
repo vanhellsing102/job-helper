@@ -1,21 +1,27 @@
 "use client"
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { GoogleGenAI } from "@google/genai";
+import { useState } from "react";
 import { LuSendHorizontal } from "react-icons/lu";
+
+const ai = new GoogleGenAI({apiKey: "AIzaSyAZL96CxSBUJaHjm-OufgMEL1KZHmd7Mxw"});
 
 const InputAndOutput = () => {
 
+    const [loading, setLoading] = useState(false);
     const [ans, setAns] = useState("");
 
-    const handleSendMessage = (e) =>{
+    const handleSendMessage = async(e) =>{
+        setLoading(true);
         e.preventDefault();
         const question = e.target.search.value;
-        axios.post('/api/ask', {question})
-        .then(res =>{
-            console.log(res.data);
+        const response = ai.models.generateContent({
+            model: 'gemini-2.0-flash',
+            contents: `give solution according to my concern, make your response sort , my concern is :${question}`,
         })
-        // console.log(question);
+        const data = await response;
+        setAns(data.text);
         e.target.reset();
+        setLoading(false);
     }
     return (
         <div className="">
@@ -29,7 +35,7 @@ const InputAndOutput = () => {
                         </button>
                     </div>
                 </form>
-                <p className="min-h-[200px] md:w-[50%] border border-slate-600 rounded-xl text-cyan-600">{ans}</p>
+                <p className="min-h-[200px] md:w-[50%] border border-slate-600 rounded-xl text-cyan-600 p-5">{ans}</p>
             </div>
         </div>
     );
