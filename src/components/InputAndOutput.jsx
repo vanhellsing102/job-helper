@@ -65,6 +65,7 @@ const InputAndOutput = () => {
                         {ans}
                     </p>
                 </div>
+                <p className="text-sm">Refference api: <span className="text-cyan-600">Google GenAI</span></p>
             </div>
             <Toaster></Toaster>
         </div>
